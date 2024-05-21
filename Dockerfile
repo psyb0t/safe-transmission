@@ -26,7 +26,7 @@ COPY transmission/settings.json /config/settings.json
 
 # Add Nginx configuration files
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
-COPY nginx/default.conf /etc/nginx/sites-enabled/default.conf
+COPY nginx/default.conf /etc/nginx/sites/default.conf
 
 # Add a script to run OpenVPN, Transmission, and Nginx
 COPY run.sh /usr/local/bin/run.sh
