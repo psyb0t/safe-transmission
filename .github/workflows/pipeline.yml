@@ -11,6 +11,8 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
+        with:
+          draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -18,6 +20,9 @@ jobs:
     if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
