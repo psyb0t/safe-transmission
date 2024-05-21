@@ -40,7 +40,7 @@ Dive into the matrix with `psyb0t/safe-transmission`:
      -v /path/to/auth.txt:/config/vpn-auth.txt \
      -v /path/to/downloads:/downloads \
      -v /path/to/watch:/watch \
-     -p 9091:80 \
+     -p 8080:80 \
      psyb0t/safe-transmission:latest
    ```
 
