@@ -47,7 +47,7 @@ else
     echo "No HTTP basic authentication will be used."
 fi
 
-# Start Nginx
+echo "Starting Nginx..."
 nginx -g 'daemon off;' &
 nginx_pid=$!
 if ! kill -0 $nginx_pid 2>/dev/null; then
@@ -90,7 +90,7 @@ else
     echo "OpenVPN will not be started."
 fi
 
-# Start Transmission
+echo "Starting Transmission..."
 transmission-daemon --foreground --config-dir /config &
 transmission_pid=$!
 if ! kill -0 $transmission_pid 2>/dev/null; then
