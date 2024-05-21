@@ -63,3 +63,12 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: psyb0t/safe-transmission:${{env.RELEASE_VERSION}}
+
+      - name: Update Docker Hub Description
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repo: psyb0t/safe-transmission
+          tags: latest
+          readme: README.md
