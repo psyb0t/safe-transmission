@@ -81,9 +81,9 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - ENV_PUID=1000
-      - ENV_PGID=1000
-      - ENV_TZ=Etc/UTC
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
       - WITH_OPENVPN=true
       - USERNAME=your_username
       - PASSWORD=your_password
