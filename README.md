@@ -1,20 +1,21 @@
 # safe-transmission
 
-Welcome to **safe-transmission**, the ultimate fusion of security and torrenting, designed for the gritty streets of the cyberpunk future. This Docker image mashes together OpenVPN, Transmission, and Nginx, creating a fortified fortress for your torrent traffic. With built-in HTTP basic authentication, you can fend off those pesky netrunners, and optional VPN routing ensures your tracks are covered.
+Welcome to **safe-transmission**, the ultimate fusion of security and torrenting, designed for the gritty streets of the cyberpunk future. This Docker image mashes together OpenVPN, Transmission, and Nginx, creating a fortified fortress for your torrent traffic. With built-in optional rate-limited HTTP basic authentication, you can fend off those pesky netrunners, and optional VPN routing ensures your tracks are covered.
 
 ## Features
 
 - **Transmission**: The sleek, shadowy BitTorrent client that gets the job done.
 - **OpenVPN**: Encrypt your torrent traffic, because Big Brother is always watching.
-- **Nginx**: Proxy your Transmission web interface with a layer of security that laughs in the face of script kiddies.
+- **Nginx**: Proxy your Transmission web interface with a layer of security that laughs in the face of script kiddies. (Rate-limited Basic Auth)
 - **Alpine Linux**: Small, efficient, and secure, just like a well-oiled cyberarm.
 
 ## Getting Started
 
 ### Prerequisites
 
+- Supported architectures:
 - Docker installed on your rig.
-- A VPN configuration file (`config.ovpn`) and optionally an authentication file (`auth.txt`).
+- A VPN configuration file (`.ovpn`) and optionally an authentication file.
 
 ### Quick Start
 
@@ -91,6 +92,7 @@ services:
     volumes:
       - ./openvpn/config.ovpn:/config/vpn-config.ovpn
       - ./openvpn/auth.txt:/config/vpn-auth.txt
+      - ./transmission/settings.json:/config/settings.json
       - ./downloads:/downloads
       - ./watch:/watch
     restart: always
