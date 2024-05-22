@@ -121,9 +121,9 @@ su-exec "$PUID":"$PGID" transmission-daemon \
     --config-dir "$CONFIG_DIR" \
     --download-dir "$DOWNLOADS_DIR" \
     --incomplete-dir "$INCOMPLETE_DOWNLOADS_DIR" \
-    --incomplete-dir-enabled true \
+    --incomplete-dir-enabled \
     --watch-dir "$WATCH_DIR" \
-    --watch-dir-enabled true &
+    --watch-dir-enabled &
 
 transmission_pid=$!
 if ! kill -0 $transmission_pid 2>/dev/null; then
