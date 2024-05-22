@@ -46,6 +46,7 @@ VPN_AUTH_FILE="/vpn-auth.txt"
 TUN_FILE="/dev/net/tun"
 CONFIG_DIR="/config"
 DOWNLOADS_DIR="/downloads"
+INCOMPLETE_DOWNLOADS_DIR="/downloads/_incomplete"
 WATCH_DIR="/watch"
 
 echo "" >$AUTH_CONF_FILE
@@ -115,7 +116,15 @@ chown -R "$PUID":"$PGID" "$WATCH_DIR"
 chmod -R 755 "$WATCH_DIR"
 
 # Run Transmission as the specified user
-su-exec "$PUID":"$PGID" transmission-daemon --foreground --config-dir /config &
+su-exec "$PUID":"$PGID" transmission-daemon \
+    --foreground \
+    --config-dir "$CONFIG_DIR" \
+    --download-dir "$DOWNLOADS_DIR" \
+    --incomplete-dir "$INCOMPLETE_DOWNLOADS_DIR" \
+    --incomplete-dir-enabled true \
+    --watch-dir "$WATCH_DIR" \
+    --watch-dir-enabled true &
+
 transmission_pid=$!
 if ! kill -0 $transmission_pid 2>/dev/null; then
     echo "Failed to start Transmission."
