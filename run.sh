@@ -26,6 +26,16 @@ cleanup() {
     exit 1
 }
 
+# Function to check the status of a process
+check_process() {
+    local pid=$1
+    local name=$2
+    if ! kill -0 "$pid" 2>/dev/null; then
+        echo "$name has terminated unexpectedly."
+        cleanup
+    fi
+}
+
 # Trap termination signals and errors
 trap cleanup SIGINT SIGTERM ERR
 
@@ -112,6 +122,18 @@ if ! kill -0 $transmission_pid 2>/dev/null; then
     cleanup
 fi
 
+# Background loop to monitor the processes
+while true; do
+    check_process $nginx_pid "Nginx"
+    check_process $transmission_pid "Transmission"
+    if [[ -n "${openvpn_pid-}" ]]; then
+        check_process "$openvpn_pid" "OpenVPN"
+    fi
+    sleep 1
+done &
+
+monitor_pid=$!
+
 # Wait for all processes to finish
 wait $nginx_pid
 nginx_status=$?
@@ -125,6 +147,8 @@ if [[ -n "${openvpn_pid-}" ]]; then
 else
     openvpn_status=0
 fi
+
+kill $monitor_pid 2>/dev/null
 
 # Check the exit statuses
 if [[ $nginx_status -ne 0 || $transmission_status -ne 0 || $openvpn_status -ne 0 ]]; then
