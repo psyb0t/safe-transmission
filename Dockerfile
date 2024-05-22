@@ -8,7 +8,8 @@ RUN apk update && \
     transmission-daemon \
     bash \
     nginx \
-    apache2-utils
+    apache2-utils \
+    su-exec
 
 # Set environment variables for Transmission
 ENV PUID=1000
@@ -20,9 +21,6 @@ RUN mkdir -p /config /downloads /watch /run/nginx /etc/nginx/conf.d
 
 # Expose ports for Nginx
 EXPOSE 80
-
-# Add Transmission settings file
-COPY transmission/settings.json /config/settings.json
 
 # Add Nginx configuration files
 COPY nginx/nginx.conf /etc/nginx/nginx.conf

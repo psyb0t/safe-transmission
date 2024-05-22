@@ -34,6 +34,9 @@ HTPASSWD_FILE="/etc/nginx/.htpasswd"
 VPN_CONFIG_FILE="/vpn-config.ovpn"
 VPN_AUTH_FILE="/vpn-auth.txt"
 TUN_FILE="/dev/net/tun"
+CONFIG_DIR="/config"
+DOWNLOADS_DIR="/downloads"
+WATCH_DIR="/watch"
 
 echo "" >$AUTH_CONF_FILE
 
@@ -91,7 +94,18 @@ else
 fi
 
 echo "Starting Transmission..."
-transmission-daemon --foreground --config-dir /config &
+# Ensure correct permissions on the transmission directories
+chown -R "$PUID":"$PGID" "$CONFIG_DIR"
+chmod -R 755 "$CONFIG_DIR"
+
+chown -R "$PUID":"$PGID" "$DOWNLOADS_DIR"
+chmod -R 755 "$DOWNLOADS_DIR"
+
+chown -R "$PUID":"$PGID" "$WATCH_DIR"
+chmod -R 755 "$WATCH_DIR"
+
+# Run Transmission as the specified user
+su-exec "$PUID":"$PGID" transmission-daemon --foreground --config-dir /config &
 transmission_pid=$!
 if ! kill -0 $transmission_pid 2>/dev/null; then
     echo "Failed to start Transmission."
