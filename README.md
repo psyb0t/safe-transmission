@@ -13,7 +13,7 @@ Welcome to **safe-transmission**, the ultimate fusion of security and torrenting
 
 ### Prerequisites
 
-- Supported architectures:
+- Supported architectures: linux/amd64, linux/arm64 (yes, it works on a arm Raspberry Pi)
 - Docker installed on your rig.
 - A VPN configuration file (`.ovpn`) and optionally an authentication file.
 
