@@ -37,8 +37,9 @@ Dive into the matrix with `psyb0t/safe-transmission`:
      -e ENV_PUID=1000 \
      -e ENV_PGID=1000 \
      -e ENV_TZ=Etc/UTC \
-     -v /path/to/config.ovpn:/config/vpn-config.ovpn \
-     -v /path/to/auth.txt:/config/vpn-auth.txt \
+     -v /path/to/config.ovpn:/vpn-config.ovpn \
+     -v /path/to/auth.txt:/vpn-auth.txt \
+     -v /path/to/config:/config \
      -v /path/to/downloads:/downloads \
      -v /path/to/watch:/watch \
      -p 8080:80 \
@@ -60,7 +61,9 @@ Replace `/path/to/config.ovpn`, `/path/to/auth.txt`, `/path/to/downloads`, and `
 
 ### Volumes
 
-- `/config`: Where the settings.json and VPN config live.
+- `/vpn-config.ovpn`: The secret tunnel info.
+- `/vpn-auth.txt`: The password allowing you to go through the tunnel.
+- `/config`: Where the transmission config files live.
 - `/downloads`: Your download stash.
 - `/watch`: Auto-add torrents from this directory.
 
@@ -90,9 +93,9 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./openvpn/config.ovpn:/config/vpn-config.ovpn
-      - ./openvpn/auth.txt:/config/vpn-auth.txt
-      - ./transmission/settings.json:/config/settings.json
+      - ./openvpn/config.ovpn:/vpn-config.ovpn
+      - ./openvpn/auth.txt:/vpn-auth.txt
+      - ./config:/config
       - ./downloads:/downloads
       - ./watch:/watch
     restart: always

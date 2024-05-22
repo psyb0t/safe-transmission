@@ -31,8 +31,8 @@ trap cleanup SIGINT SIGTERM ERR
 
 AUTH_CONF_FILE="/etc/nginx/conf.d/auth.conf"
 HTPASSWD_FILE="/etc/nginx/.htpasswd"
-VPN_CONFIG_FILE="/config/vpn-config.ovpn"
-VPN_AUTH_FILE="/config/vpn-auth.txt"
+VPN_CONFIG_FILE="/vpn-config.ovpn"
+VPN_AUTH_FILE="/vpn-auth.txt"
 TUN_FILE="/dev/net/tun"
 
 echo "" >$AUTH_CONF_FILE
