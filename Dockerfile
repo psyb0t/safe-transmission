@@ -9,7 +9,8 @@ RUN apk update && \
     bash \
     nginx \
     apache2-utils \
-    su-exec
+    su-exec && \
+    rm -rf /var/cache/apk/*
 
 # Set environment variables for Transmission
 ENV PUID=1000
