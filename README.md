@@ -1,5 +1,9 @@
 # safe-transmission
 
+[![version](https://raw.githubusercontent.com/psyb0t/safe-transmission/badges/version.svg)](https://github.com/psyb0t/safe-transmission/releases)
+[![license](https://raw.githubusercontent.com/psyb0t/safe-transmission/badges/license.svg)](LICENSE)
+[![Docker Pulls](https://img.shields.io/docker/pulls/psyb0t/safe-transmission?style=flat-square)](https://hub.docker.com/r/psyb0t/safe-transmission)
+
 Welcome to **safe-transmission**, the ultimate fusion of security and torrenting, designed for the gritty streets of the cyberpunk future. This Docker image mashes together OpenVPN, Transmission, and Nginx, creating a fortified fortress for your torrent traffic. With built-in optional rate-limited HTTP basic authentication, you can fend off those pesky netrunners, and optional VPN routing ensures your tracks are covered.
 
 ## Features
