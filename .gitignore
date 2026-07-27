@@ -2,3 +2,4 @@ config
 openvpn
 watch
 downloads
+git-update.sh
