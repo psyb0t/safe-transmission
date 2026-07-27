@@ -1,5 +1,6 @@
 # safe-transmission
 
+[![CI](https://github.com/psyb0t/safe-transmission/actions/workflows/pipeline.yml/badge.svg?branch=master)](https://github.com/psyb0t/safe-transmission/actions/workflows/pipeline.yml)
 [![version](https://raw.githubusercontent.com/psyb0t/safe-transmission/badges/version.svg)](https://github.com/psyb0t/safe-transmission/releases)
 [![license](https://raw.githubusercontent.com/psyb0t/safe-transmission/badges/license.svg)](LICENSE)
 [![Docker Pulls](https://img.shields.io/docker/pulls/psyb0t/safe-transmission?style=flat-square)](https://hub.docker.com/r/psyb0t/safe-transmission)
