@@ -2,6 +2,24 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.1.7 — 2026-08-01
+
+Documentation only. No image, runtime, or configuration changes.
+
+- The repo now ships a `docker-compose.yml` quick start. Until now it contained
+  no compose file at all, so anyone cloning it had to retype the example out of
+  the README before they could bring the service up.
+- It pulls `psyb0t/safe-transmission:latest`, adds `NET_ADMIN` for the VPN
+  tunnel, publishes host port 9091, and bind-mounts `./openvpn/config.ovpn`,
+  `./openvpn/auth.txt`, `./config`, `./downloads` and `./watch`. Those paths are
+  not in the repo — create them before the first `docker compose up`.
+- `USERNAME` and `PASSWORD` in it are placeholders. Change them, or the basic
+  auth in front of the web interface is worth nothing. So are the VPN files: an
+  empty `config.ovpn` with `WITH_OPENVPN=true` means the container has no tunnel
+  to bring up.
+- The environment variables are spelled `PUID`, `PGID` and `TZ`, matching the
+  names the image actually reads.
+
 ## v0.1.6 — 2026-08-01
 
 CI infrastructure only. No image, runtime, or configuration changes.

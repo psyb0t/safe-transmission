@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  safe-transmission:
+    image: psyb0t/safe-transmission:latest
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WITH_OPENVPN=true
+      - USERNAME=your_username
+      - PASSWORD=your_password
+    ports:
+      - "9091:80"
+    volumes:
+      - ./openvpn/config.ovpn:/vpn-config.ovpn
+      - ./openvpn/auth.txt:/vpn-auth.txt
+      - ./config:/config
+      - ./downloads:/downloads
+      - ./watch:/watch
+    restart: always
