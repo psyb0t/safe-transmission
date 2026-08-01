@@ -2,6 +2,21 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.1.6 — 2026-08-01
+
+CI infrastructure only. No image, runtime, or configuration changes.
+
+- Split the pipeline so building and publishing stay in `pipeline.yml`, while
+  everything that leaves the host lives beside it in `mirror-and-archive.yml`.
+- Mirror every branch and tag push to Codeberg as well as GitLab.
+- Archive the repo to the Wayback Machine, Software Heritage and archive.org,
+  on the default branch, on tags, and on a monthly schedule.
+- Pull issues opened on either mirror back into GitHub every six hours, and
+  close them here when the original closes.
+- Pull requests are switched off on the mirrors: they are force-pushed from
+  GitHub, so anything merged there is destroyed by the next sync. Issues and
+  forking stay enabled.
+
 ## v0.1.5 — 2026-07-27
 
 - Added a GitHub Actions CI status badge to the README.
