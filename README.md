@@ -39,9 +39,9 @@ Dive into the matrix with `psyb0t/safe-transmission`:
      -e USERNAME=your_username \
      -e PASSWORD=your_password \
      -e WITH_OPENVPN=true \
-     -e ENV_PUID=1000 \
-     -e ENV_PGID=1000 \
-     -e ENV_TZ=Etc/UTC \
+     -e PUID=1000 \
+     -e PGID=1000 \
+     -e TZ=Etc/UTC \
      -v /path/to/config.ovpn:/vpn-config.ovpn \
      -v /path/to/auth.txt:/vpn-auth.txt \
      -v /path/to/config:/config \

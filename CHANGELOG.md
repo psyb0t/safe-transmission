@@ -2,6 +2,23 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.1.8 — 2026-08-01
+
+Documentation only. No image, runtime, or configuration changes.
+
+- The `docker run` example in the README named environment variables the image
+  does not read: `ENV_PUID`, `ENV_PGID` and `ENV_TZ`. The image reads `PUID`,
+  `PGID` and `TZ` (`Dockerfile`, and `run.sh` where they are used for the
+  `chown` and the `su-exec` drop). Anyone copying that example set three
+  variables nothing looked at, so the container silently kept its defaults —
+  user and group `1000`, time zone `Etc/UTC`. The Configuration section of the
+  same README already listed the correct names, so the file contradicted
+  itself; the example now matches it.
+- The compose quick start publishes host port `8080` instead of `9091`, so it
+  agrees with both README examples. Either works — the host port is arbitrary —
+  this just picks the documented one.
+- `.telemetry/` is ignored by git and excluded from the Docker build context.
+
 ## v0.1.7 — 2026-08-01
 
 Documentation only. No image, runtime, or configuration changes.

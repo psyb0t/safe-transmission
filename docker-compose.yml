@@ -13,7 +13,7 @@ services:
       - USERNAME=your_username
       - PASSWORD=your_password
     ports:
-      - "9091:80"
+      - "8080:80"
     volumes:
       - ./openvpn/config.ovpn:/vpn-config.ovpn
       - ./openvpn/auth.txt:/vpn-auth.txt

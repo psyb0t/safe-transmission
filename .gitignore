@@ -3,3 +3,4 @@ openvpn
 watch
 downloads
 git-update.sh
+.telemetry/
