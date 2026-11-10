@@ -10,3 +10,4 @@ git-update.sh
 
 # Build output: the local docs site and test caches.
 .testing/
+git-update.sh.debot
