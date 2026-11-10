@@ -4,3 +4,9 @@ watch
 downloads
 git-update.sh
 .telemetry/
+
+# Local agent and editor settings.
+*.local.json
+
+# Build output: the local docs site and test caches.
+.testing/

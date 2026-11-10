@@ -2,122 +2,67 @@
 
 [![CI](https://github.com/psyb0t/safe-transmission/actions/workflows/pipeline.yml/badge.svg?branch=master)](https://github.com/psyb0t/safe-transmission/actions/workflows/pipeline.yml)
 [![version](https://raw.githubusercontent.com/psyb0t/safe-transmission/badges/version.svg)](https://github.com/psyb0t/safe-transmission/releases)
-[![license](https://raw.githubusercontent.com/psyb0t/safe-transmission/badges/license.svg)](LICENSE)
+[![license](https://raw.githubusercontent.com/psyb0t/safe-transmission/badges/license.svg)](https://github.com/psyb0t/safe-transmission/blob/master/LICENSE)
 [![Docker Pulls](https://img.shields.io/docker/pulls/psyb0t/safe-transmission?style=flat-square)](https://hub.docker.com/r/psyb0t/safe-transmission)
 
-Welcome to **safe-transmission**, the ultimate fusion of security and torrenting, designed for the gritty streets of the cyberpunk future. This Docker image mashes together OpenVPN, Transmission, and Nginx, creating a fortified fortress for your torrent traffic. With built-in optional rate-limited HTTP basic authentication, you can fend off those pesky netrunners, and optional VPN routing ensures your tracks are covered.
+Welcome to **safe-transmission**, torrenting for the gritty streets of the cyberpunk future. This Docker image mashes together Transmission, nginx and OpenVPN in one container. nginx stands in front of the Transmission web interface with optional, rate-limited HTTP basic authentication to fend off those pesky netrunners, and the optional OpenVPN client sends your torrent traffic out through your VPN provider instead of your own line.
 
 ## Features
 
-- **Transmission**: The sleek, shadowy BitTorrent client that gets the job done.
-- **OpenVPN**: Encrypt your torrent traffic, because Big Brother is always watching.
-- **Nginx**: Proxy your Transmission web interface with a layer of security that laughs in the face of script kiddies. (Rate-limited Basic Auth)
-- **Alpine Linux**: Small, efficient, and secure, just like a well-oiled cyberarm.
+- **Transmission**: the sleek, shadowy BitTorrent daemon and its web interface, running as the user and group you choose.
+- **nginx**: the only open port. One request per second per client with a burst of 5, plus basic auth when you set a user name and password.
+- **OpenVPN**: tunnels your torrent traffic when you hand it your provider's `.ovpn` file. No kill switch, so check the tunnel; the docs show how.
+- **Alpine Linux**: small and lean, like a well-oiled cyberarm. Built for `linux/amd64` and `linux/arm64` (yes, it runs on a Raspberry Pi).
 
-## Getting Started
+## Quick start
 
-### Prerequisites
+Jack in with your VPN config, a login for the web interface, and three directories for state:
 
-- Supported architectures: linux/amd64, linux/arm64 (yes, it works on a arm Raspberry Pi)
-- Docker installed on your rig.
-- A VPN configuration file (`.ovpn`) and optionally an authentication file.
-
-### Quick Start
-
-Dive into the matrix with `psyb0t/safe-transmission`:
-
-1. **Jack into the image from Docker Hub:**
-
-   ```bash
-   docker pull psyb0t/safe-transmission:latest
-   ```
-
-2. **Fire up the container:**
-
-   ```bash
-   docker run --cap-add=NET_ADMIN --rm \
-     -e USERNAME=your_username \
-     -e PASSWORD=your_password \
-     -e WITH_OPENVPN=true \
-     -e PUID=1000 \
-     -e PGID=1000 \
-     -e TZ=Etc/UTC \
-     -v /path/to/config.ovpn:/vpn-config.ovpn \
-     -v /path/to/auth.txt:/vpn-auth.txt \
-     -v /path/to/config:/config \
-     -v /path/to/downloads:/downloads \
-     -v /path/to/watch:/watch \
-     -p 8080:80 \
-     psyb0t/safe-transmission:latest
-   ```
-
-Replace `/path/to/config.ovpn`, `/path/to/auth.txt`, `/path/to/downloads`, and `/path/to/watch` with your actual directories. Change `your_username` and `your_password` to your credentials. Keep those secrets close.
-
-### Configuration
-
-**Environment Variables**:
-
-- `PUID`: User ID. Default: `1000`.
-- `PGID`: Group ID. Default: `1000`.
-- `TZ`: Time zone. Default: `Etc/UTC`.
-- `USERNAME`: Your chosen handle for HTTP basic authentication. Leaving this empty will disable authentication.
-- `PASSWORD`: Your password. Make it strong, netrunner. Leaving this empty will disable authentication.
-- `WITH_OPENVPN`: Set to `true` to route traffic through a VPN. Default: `false`.
-
-### Volumes
-
-- `/vpn-config.ovpn`: The secret tunnel info.
-- `/vpn-auth.txt`: The password allowing you to go through the tunnel.
-- `/config`: Where the transmission config files live.
-- `/downloads`: Your download stash.
-- `/watch`: Auto-add torrents from this directory.
-
-### Exposed Ports
-
-- `80`: Nginx proxy for the Transmission web interface.
-
-### Example docker-compose.yml
-
-Want to deploy like a pro? Check this out:
-
-```yaml
-version: "3.8"
-
-services:
-  safe-transmission:
-    image: psyb0t/safe-transmission:latest
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-      - WITH_OPENVPN=true
-      - USERNAME=your_username
-      - PASSWORD=your_password
-    ports:
-      - "8080:80"
-    volumes:
-      - ./openvpn/config.ovpn:/vpn-config.ovpn
-      - ./openvpn/auth.txt:/vpn-auth.txt
-      - ./config:/config
-      - ./downloads:/downloads
-      - ./watch:/watch
-    restart: always
+```bash
+docker run -d \
+  --name safe-transmission \
+  --cap-add=NET_ADMIN \
+  -e WITH_OPENVPN=true \
+  -e USERNAME=your_username \
+  -e PASSWORD=your_password \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -v /path/to/config.ovpn:/vpn-config.ovpn \
+  -v /path/to/auth.txt:/vpn-auth.txt \
+  -v /path/to/config:/config \
+  -v /path/to/downloads:/downloads \
+  -v /path/to/watch:/watch \
+  -p 8080:80 \
+  psyb0t/safe-transmission:latest
 ```
 
-### Security Notes
+Replace the `/path/to/...` parts with your own files and directories, and `your_username` and `your_password` with real credentials. Keep those secrets close. Then open `http://localhost:8080/`.
 
-- Keep your `.ovpn` and `.txt` files secure. Think of them as your digital katana and trench coat.
-- Strong passwords, always. We're not in Kansas anymore.
+No VPN? Drop `--cap-add`, `WITH_OPENVPN` and the two VPN mounts. There is also a [`docker-compose.yml`](https://github.com/psyb0t/safe-transmission/blob/master/docker-compose.yml) for `docker compose up -d`.
 
-## Hack the Planet!
+## Documentation
 
-With **safe-transmission**, you're ready to take on the dystopian digital future. Torrent safely, securely, and always stay one step ahead of the corpos and their surveillance.
+The full manual lives at **https://psyb0t.github.io/safe-transmission/**.
+
+| Section | What's there |
+| --- | --- |
+| [Getting started](https://psyb0t.github.io/safe-transmission/getting-started/) | First run with and without a VPN, Compose, logs, upgrades |
+| [Configuration](https://psyb0t.github.io/safe-transmission/configuration/) | Every variable, volume, port and capability, and Transmission's own settings |
+| [OpenVPN](https://psyb0t.github.io/safe-transmission/openvpn/) | What the tunnel needs, the start delay, how to check it, its limits |
+| [Security](https://psyb0t.github.io/safe-transmission/security/) | What basic auth, the rate limit and the VPN protect, and what they don't |
+| [How it works](https://psyb0t.github.io/safe-transmission/how-it-works/) | Startup order, request path, the process monitor, shutdown |
+| [Troubleshooting](https://psyb0t.github.io/safe-transmission/troubleshooting/) | Each error message and HTTP status, what causes it, how to fix it |
+| [Development](https://psyb0t.github.io/safe-transmission/development/) | Layout, Make targets, tests, CI and releases |
+
+## Hack the planet
+
+With **safe-transmission**, you're ready to take on the dystopian digital future. Torrent behind a password, send the swarm traffic through your VPN, and stay one step ahead of the corpos and their surveillance.
 
 Remember, the internet is vast and infinite. Happy torrenting, console cowboy!
 
----
+## Sponsor
+
+<a href="https://www.buymeacoffee.com/psyb0t"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me a Coffee" height="60" width="217"></a>
 
 ## License
 

@@ -2,6 +2,18 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.1.9 — 2026-11-10
+
+- The documentation is published at https://psyb0t.github.io/safe-transmission/,
+  and the reference material (variables, volumes, ports, security notes) moved
+  there from the README.
+- CI runs lint (shellcheck, shfmt, hadolint) and new container smoke tests on
+  every branch push, and `make lint` and `make test` run the same checks
+  locally with only Docker. A push to master also publishes a `:sha-<commit>`
+  image, and a version tag promotes that exact image instead of rebuilding it.
+- Buy Me a Coffee is in the funding links, and `AGENTS.md` plus project rules
+  in `.agents/rules/` are committed for coding agents.
+
 ## v0.1.8 — 2026-08-01
 
 Documentation only. No image, runtime, or configuration changes.

@@ -1,1 +1,5 @@
 .telemetry/
+
+# Not needed by the image: the docs site source and local build output.
+docs/
+.testing/

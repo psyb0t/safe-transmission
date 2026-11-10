@@ -1,6 +1,9 @@
 FROM alpine:3.22
 
-# Install OpenVPN, Transmission, Nginx, and necessary dependencies
+# Install OpenVPN, Transmission, Nginx, and necessary dependencies.
+# The alpine tag fixes the package set; Alpine drops superseded package
+# versions from its mirrors, so exact apk pins would break later builds.
+# hadolint ignore=DL3018
 RUN apk update && \
     apk add --no-cache \
     openvpn \
